@@ -43,6 +43,13 @@ connectDB()
     server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`🔌 Socket.io ready for connections`);
+      
+      // If running on single-instance free hosting, run worker inside the same process
+      if (process.env.SINGLE_INSTANCE === 'true') {
+        import('../worker.js')
+          .then(() => console.log('✅ Background worker loaded in single-instance mode'))
+          .catch(err => console.error('❌ Failed to load background worker:', err.message));
+      }
     });
   })
   .catch((error) => {
