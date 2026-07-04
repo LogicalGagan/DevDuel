@@ -12,10 +12,7 @@ import Redis from 'ioredis';
 let redisClient = null;
 let subscriberClient = null;
 
-const REDIS_CONFIG = {
-  host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6380'),
-  password: process.env.REDIS_PASSWORD || undefined,
+const getRedisOptions = () => ({
   maxRetriesPerRequest: null,  // Required by BullMQ
   enableReadyCheck: false,
   retryStrategy: (times) => {
@@ -27,6 +24,19 @@ const REDIS_CONFIG = {
     console.log(`🔄 Redis: retrying connection in ${delay}ms (attempt ${times})`);
     return delay;
   },
+});
+
+const createRedisInstance = () => {
+  const options = getRedisOptions();
+  if (process.env.REDIS_URL) {
+    return new Redis(process.env.REDIS_URL, options);
+  }
+  return new Redis({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6380'),
+    password: process.env.REDIS_PASSWORD || undefined,
+    ...options
+  });
 };
 
 /**
@@ -34,10 +44,10 @@ const REDIS_CONFIG = {
  */
 export const getRedisClient = () => {
   if (!redisClient) {
-    redisClient = new Redis(REDIS_CONFIG);
+    redisClient = createRedisInstance();
 
     redisClient.on('connect', () => {
-      console.log(`✅ Redis connected: ${REDIS_CONFIG.host}:${REDIS_CONFIG.port}`);
+      console.log(`✅ Redis client connected successfully`);
     });
 
     redisClient.on('error', (err) => {
@@ -52,7 +62,7 @@ export const getRedisClient = () => {
  */
 export const getRedisSubscriber = () => {
   if (!subscriberClient) {
-    subscriberClient = new Redis(REDIS_CONFIG);
+    subscriberClient = createRedisInstance();
 
     subscriberClient.on('error', (err) => {
       console.error('❌ Redis subscriber error:', err.message);
@@ -65,7 +75,7 @@ export const getRedisSubscriber = () => {
  * Create a new Redis connection (for BullMQ workers — each needs its own)
  */
 export const createRedisConnection = () => {
-  return new Redis(REDIS_CONFIG);
+  return createRedisInstance();
 };
 
 /**
