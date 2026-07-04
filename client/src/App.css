@@ -1,0 +1,55 @@
+/* ── Reusable utility classes ── */
+
+.lc-card {
+  background-color: var(--lc-card);
+  border: 1px solid var(--lc-border);
+  border-radius: 12px;
+  backdrop-filter: blur(16px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lc-card:hover {
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.05);
+}
+
+.lc-btn-primary {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lc-btn-primary:hover {
+  background: linear-gradient(135deg, #9c6ef7, #7477f2);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.55), 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+.lc-btn-primary:active {
+  transform: translateY(0);
+}
+
+.lc-nav-link {
+  color: var(--lc-text-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.lc-nav-link:hover {
+  color: var(--lc-text-bright);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.lc-nav-link.active {
+  color: var(--lc-text-bright);
+  background-color: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 6px;
+}
