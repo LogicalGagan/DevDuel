@@ -1,9 +1,7 @@
 import { io } from 'socket.io-client';
 
 // In production: empty (proxied through Render). In local dev: direct URL
-const SOCKET_URL = import.meta.env.DEV
-  ? (import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000')
-  : '';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
 
 let socket = null;
 

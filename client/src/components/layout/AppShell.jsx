@@ -81,7 +81,7 @@ const AppShell = ({ children }) => {
     if (!reportForm.subject.trim() || !reportForm.description.trim()) return;
     setReportSending(true);
     try {
-      const base = import.meta.env.DEV ? (import.meta.env.VITE_API_URL || 'http://localhost:5000') : '';
+      const base = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const res = await fetch(`${base}/api/reports`, {
         method: 'POST',
         headers: {
